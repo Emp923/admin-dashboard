@@ -16,6 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import posts from "@/data/posts";
+import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
   title: z.string().min(1, {
@@ -39,6 +40,8 @@ interface PostEditPageProps {
 }
 
 const PostEditPage = ({ params }: PostEditPageProps) => {
+  const { toast } = useToast();
+
   const post = posts.find((post) => post.id === params.id);
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -52,7 +55,10 @@ const PostEditPage = ({ params }: PostEditPageProps) => {
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    console.log(data);
+    toast({
+      title: "Post has been updated successfully",
+      description: `Updated by ${post?.author} on ${post?.date}`
+    });
   };
 
   return (
@@ -66,7 +72,7 @@ const PostEditPage = ({ params }: PostEditPageProps) => {
             name="title"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                   Title
                 </FormLabel>
                 <FormControl>
@@ -85,7 +91,7 @@ const PostEditPage = ({ params }: PostEditPageProps) => {
             name="body"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                   Body
                 </FormLabel>
                 <FormControl>
@@ -104,7 +110,7 @@ const PostEditPage = ({ params }: PostEditPageProps) => {
             name="author"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                   Author
                 </FormLabel>
                 <FormControl>
@@ -123,7 +129,7 @@ const PostEditPage = ({ params }: PostEditPageProps) => {
             name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-secondary/70">
+                <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-white">
                   Date
                 </FormLabel>
                 <FormControl>
